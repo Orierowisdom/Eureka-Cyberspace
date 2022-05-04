@@ -1,3 +1,6 @@
+<?php require_once ('../admin/init.php');?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,8 +16,8 @@
     <title>Affiliates--Eureka Cyberspace | Affiliate system for Web &amp; Mobile Developer In Nigeria </title>
 
     <!-- Styles -->
-    <link href="Assets/css/page.min.css" rel="stylesheet">
-    <link href="Assets/css/style.css" rel="stylesheet">
+    <link href="../Assets/css/page.min.css" rel="stylesheet">
+    <link href="../Assets/css/style.css" rel="stylesheet">
 
     <!-- favicon -->
     <link rel="shortcut icon" href="../Assets/img/eureka fav.png" type="image/x-icon">
@@ -23,27 +26,9 @@
 <body id="home">
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark" data-navbar="smart">
-        <div class="container">
-
-            <div class="navbar-left mr-auto">
-                <a class="navbar-brand" href="./index.html">
-                    <img class="logo-dark" src="./Assets/img/eureka logo.png" alt="logo">
-                    <img class="logo-light" src="./Assets/img/eureka logo2 (2).png.png" alt="logo">
-                </a>
-            </div>
-
-            <div class="mr-4">
-               <!--<a class="btn btn-xs btn-warning ml-lg-4 mr-2" href="#">Sign in</a>-->
-                <a class="btn btn-xs btn-outline-warning" href="./form.html">Sign up</a>
-            </div>
-
-
-            <!--<nav class="nav nav-inline nav-navbar">-->
-            <!--    <a class="nav-link lead-3" href="#" data-toggle="offcanvas" data-target="#offcanvas-menu">&#9776;</a>-->
-            <!--</nav>-->
-        </div>
-    </nav><!-- /.navbar -->
+    <?php require_once('includes/nav.php'); ?>
+    
+    <!-- /.navbar -->
 
 
     <!-- Header -->
@@ -172,7 +157,7 @@
                     <h2>Wonderful Community</h2>
                     <p class="lead-2">Join Hundreds of affiliates working with us across the 36 States in Nigeria.</p>
                     <br>
-                    <p><a class="btn btn-lg btn-round btn-light" href="./form.html">Become an affiliate</a></p>
+                    <p><a class="btn btn-lg btn-round btn-light" href="./form.php">Become an affiliate</a></p>
 
                 </div>
             </div>
@@ -186,154 +171,16 @@
       | FAQ
       |‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒
       !-->
-    <section class="section">
-        <div class="container">
-            <header class="section-header">
-                <small>FAQ</small>
-                <h2>Frequently Asked Questions</h2>
-                <hr>
-                <p>Got a question? We've got answers. If you have some other questions, see our support center.</p>
-            </header>
-
-
-            <div class="row gap-y">
-                <div class="col-md-6">
-                    <h5>How do I receive my payment?</h5>
-                    <p>After your client makes payments, you receive your percentage payments within or after 24hrs to
-                        you local bank account.</p>
-                </div>
-
-
-                <div class="col-md-6">
-                    <h5>Can I update my account details?</h5>
-                    <p>Yes. Send us a message via any of our provided options to request for an update your payment
-                        information.</p>
-                </div>
-
-
-                <div class="col-md-6">
-                    <h5>Is this a secure site for Payment and purchases?</h5>
-                    <p>Absolutely! We work with top payment companies which guarantees your safety and security. All
-                        billing information is stored on our payment processing partner.</p>
-                </div>
-
-
-                <div class="col-md-6">
-                    <h5>How would my customer make payments?</h5>
-                    <p>Your customers make payment through your private link that will be given to you within 24hrs
-                        after registration.</p>
-                </div>
-
-
-                <div class="col-md-6">
-                    <h5>How long are your contracts?</h5>
-                    <p>Currently, we only offer monthly subscription. You can upgrade or cancel your monthly account at
-                        any time with no further obligation.</p>
-                </div>
-
-
-                <div class="col-md-6">
-                    <h5>Can I request refund?</h5>
-                    <p>Unfortunately, not. We do not issue full or partial refunds for our promo Package but, for our
-                        standard packages, Partial refunds are possible.</p>
-                </div>
-
-                <div class="col-md-6">
-                    <h5>Can my percentage increase overtime?</h5>
-                    <p>We will notify you on any increase or decrease in the percentage payment plan.</p>
-                </div>
-
-
-                <div class="col-md-6">
-                    <h5>What happens if my customer pays directly to you without using my link?</h5>
-                    <p>We are always willing to look into any issue provided there are valid proofs to any claim</p>
-                </div>
-
-
-                <div class="col-md-6">
-                    <h5>Do you start without payments?</h5>
-                    <p>We do not take up any offer without a valid payment. However, we start our development for an
-                        agreed
-                        upfront payment for only our standard packages.</p>
-                </div>
-
-
-                <div class="col-md-6">
-                    <h5>Do I get bonuses for introducing new affiliates?</h5>
-                    <p>Currently not! In future we look forward to implementing compensations. However, we will notify
-                        you
-                        on any changes.</p>
-                </div>
-            </div>
-
-
-        </div>
-    </section>
+   
 
 
 
-    <!-- Footer -->
-    <footer class="footer bg-gray py-7">
-        <div class="container">
-            <div class="row gap-y">
+<?php require_once("includes/faq.php") ?>
 
-                <div class="col-md-6 col-xl-4">
-                    <p><a href="./index.html"><img src="./Assets/img/eureka logo.png" alt="logo"></a></p>
-                    <p>We strongly believe in the power of team work for a business to posses a functional and
-                        high-performing structure.</p>
-                </div>
+  <!--
+      |‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒
+      | FOOTER
+      |‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒
+      !-->
 
-                <div class="col-6 col-md-3 col-xl-2">
-                    <h6 class="mb-4 mt-1"><strong>Company</strong></h6>
-                    <div class="nav flex-column">
-                        <a class="nav-link" href="https://eureka.gwlservices.com.ng/#features">Features</a>
-                        <a class="nav-link" href="#">Careers</a>
-                        <a class="nav-link" href="https://eureka.gwlservices.com.ng/#footer">Contact</a>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-3 col-xl-2">
-                    <h6 class="mb-4 mt-1"><strong>Product</strong></h6>
-                    <div class="nav flex-column">
-                        <a class="nav-link" href="https://eureka.gwlservices.com.ng/#work-progress">Showcase</a>
-                        <a class="nav-link" href="https://eureka.gwlservices.com.ng/#pricing">Pricing</a>
-                        <a class="nav-link" href="https://eureka.gwlservices.com.ng/#customers">Customers</a>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-6 col-xl-2">
-                    <h6 class="mb-4 mt-1"><strong>Support</strong></h6>
-                    <div class="nav flex-column">
-                        <a class="nav-link" href="#">Developers</a>
-                        <a class="nav-link" href="#">Get Involved</a>
-                        <a class="nav-link" href="#">Learn</a>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-6 col-xl-2 text-center">
-                    <p><a class="btn btn-block btn-round btn-success" href="https://wa.me/message/57I4SOE3TTGZH1">Whatsapp</a></p>
-                    <p><a class="btn btn-block btn-round btn-primary" href="tel:+8081742583">Call Us</a></p>
-                    <br>
-                    <div class="social social-bordered">
-                        <a class="social-facebook" href="#"><i class="fa fa-facebook"></i></a>
-                        <a class="social-twitter" href="#"><i class="fa fa-twitter"></i></a>
-                        <a class="social-youtube" href="#"><i class="fa fa-youtube"></i></a>
-                        <a class="social-instagram" href="#"><i class="fa fa-instagram"></i></a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </footer><!-- /.footer -->
-
-
-
-
-
-    <!-- Scripts -->
-    <script src="Assets/Js/page.min.js"></script>
-    <script src="Assets/Js/script.js"></script>
-
-</body>
-
-</html>
+<?php require_once("includes/footer.php") ?>

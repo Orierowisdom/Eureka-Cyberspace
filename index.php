@@ -1,3 +1,5 @@
+<?php require_once ('admin/init.php');?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,6 +17,9 @@
     <!-- Styles -->
     <link href="Assets/css/page.min.css" rel="stylesheet">
     <link href="Assets/css/style.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!-- favicon -->
     <link rel="shortcut icon" href="../Assets/img/eureka fav.png" type="image/x-icon">
@@ -29,7 +34,7 @@
 
             <div class="navbar-left">
                 <button class="navbar-toggler" type="button">&#9776;</button>
-                <a class="navbar-brand" href="./index.html">
+                <a class="navbar-brand" href="./index.php">
                     <img class="logo-dark" src="./Assets/img/eureka logo.png" alt="logo">
                     <!-- <img class="logo-light" src="./Assets/img/eureka logo.png" alt="logo"> -->
                 </a>
@@ -41,7 +46,7 @@
                     <a class="nav-link" href="#work-progress">Work Progress</a>
                     <a class="nav-link" href="#pricing">Pricing</a>
                     <a class="nav-link" href="#customers">Customers</a>
-                    <a class="nav-link" href="./affiliate/index.html">Affiliates</a>
+                    <a class="nav-link" href="./affiliate/index.php" target="blank">Affiliates</a>
                     <a class="nav-link" href="#footer">Contact</a>
                 </nav>
             </section>
@@ -196,7 +201,7 @@
 
                 <div class="col-md-6 col-xl-4">
                     <div class="media">
-                        <div class="lead-6 line-height-1 text-info mr-5"><i class="icon-tools"></i></div>
+                        <div class="lead-6 line-height-1 text-info mr-5"> <i class="icon-tools"> </i></div>
                         <div class="media-body">
                             <h5>24HRs Support</h5>
                             <p>We make ourselves available to our clients as they need us for neccessary updates.</p>
@@ -207,7 +212,7 @@
 
                 <div class="col-md-6 col-xl-4">
                     <div class="media">
-                        <div class="lead-6 line-height-1 text-warning mr-5"><i class="icon-layers"></i></div>
+                        <div class="lead-6 line-height-1 text-warning mr-5"> <i class="icon-layers"></i></div>
                         <div class="media-body">
                             <h5>Business Email</h5>
                             <p>We also make available a business email for your business site for easy access to your
@@ -215,7 +220,7 @@
                         </div>
                     </div>
                 </div>
-
+                               
 
                 <div class="col-md-6 col-xl-4">
                     <div class="media">
@@ -385,9 +390,12 @@
             </div>
         </div>
         <form class="py-4">
-            <a class="btn btn-lg btn-block btn-primary" href="#" data-bind-href="pricing"
+        <a class="btn btn-lg btn-block btn-primary" href="#" data-bind-href="pricing"
+                data-monthly="./customer_form.php" data-yearly="./customer_form.php">Get Started
+            </a>
+            <!-- <a class="btn btn-lg btn-block btn-primary" href="#" data-bind-href="pricing"
                 data-monthly="https://flutterwave.com/pay/eurekastandardpromo"
-                data-yearly="https://flutterwave.com/pay/eurekastandard">Pay Now</a>
+                data-yearly="https://flutterwave.com/pay/eurekastandard">Pay Now</a> -->
 
         </form>
     </div>
@@ -419,10 +427,14 @@
 
                 </div>
                 <form class="py-4">
-                    <a class="btn btn-lg btn-block btn-primary " href="#" d data-bind-href="pricing"
+                <a class="btn btn-lg btn-block btn-primary " href="#" d data-bind-href="pricing"
+                        data-monthly="./customer_form.php" data-yearly="./customer_form.php">Get Started
+                    </a>
+
+                    <!-- <a class="btn btn-lg btn-block btn-primary " href="#" d data-bind-href="pricing"
                         data-monthly="https://flutterwave.com/pay/eurekabasicpromo"
                         data-yearly="https://flutterwave.com/pay/eurekabasic">Pay
-                        Now</a>
+                        Now</a> -->
 
                     <!-- <a  class="btn btn-lg btn-block btn-primary" type="button">Pay Now</a> -->
                 </form>
@@ -457,7 +469,7 @@
                 <div class="row gap-y">
 
                     <div class="col-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
-                        <a class="card shadow-1 hover-shadow-7" href="demo/software-1.html" target="_blank">
+                        <a class="card shadow-1 hover-shadow-7" href="demo/software-1.php" target="_blank">
                             <img class="card-img-top" src="./Assets/img/demo/site-sample-1.png" alt="Demo">
                             <div class="card-body">
                                 <h6 class="mb-0">Online Elections</h6>
@@ -487,7 +499,7 @@
 
 
                     <div class="col-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
-                        <a class="card shadow-1 hover-shadow-7" href="demo/marketing-2.html" target="_blank">
+                        <a class="card shadow-1 hover-shadow-7" href="demo/marketing-2.php" target="_blank">
                             <img class="card-img-top" src="./Assets/img/demo/contact-page.png" alt="Demo">
                             <div class="card-body">
                                 <h6 class="mb-0">Product Page</h6>
@@ -612,7 +624,7 @@
             <h2 class="mb-6 text-white"><strong>Join over 200 affiliates that trust Eureka Cyberspace.</strong></h2>
             <p class="lead text-muted text-white">The best platform for a well encouraged team work</p>
             <hr class="w-5 my-7">
-            <a class="btn btn-lg btn-round btn-primary" href="./affiliate/index.html">Join Today</a>
+            <a class="btn btn-lg btn-round btn-primary" href="./affiliate/index.php">Join Today</a>
         </div>
     </section>
 
@@ -702,7 +714,7 @@
             <div class="row gap-y align-items-center">
 
                 <div class="col-6 col-lg-3">
-                    <a href="../index.html"><img src="./Assets/img/eureka logo2.png" alt="logo"></a>
+                    <a href="../index.php"><img src="./Assets/img/eureka logo2.png" alt="logo"></a>
                 </div>
 
                 <div class="col-6 col-lg-3 text-right order-lg-last">
@@ -712,13 +724,14 @@
                         <a class="social-instagram" href="#"><i class="fa fa-instagram"></i></a>
                         <a class="social-dribbble" href="#"><i class="fa fa-dribbble"></i></a>
                     </div>
+                    
                 </div>
 
                 <div class="col-lg-6">
                     <div class="nav nav-bold nav-uppercase nav-trim justify-content-lg-center">
                         <a class="nav-link" href="#home">Home</a>
                         <a class="nav-link" href="#pricing">Pricing</a>
-                        <a class="nav-link" href="./affiliate/index.html">Affiliates</a>
+                        <a class="nav-link" href="./affiliate/index.php">Affiliates</a>
                         <a class="nav-link" href="#customers">Customers</a>
                         <a class="nav-link" href="#footer">Contact</a>
                     </div>

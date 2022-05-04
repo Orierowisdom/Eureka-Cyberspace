@@ -1,0 +1,9 @@
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILE} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
+#Alternatively
+#RewriteRule ^(index||customer_form|form|||)$ $1.php [NC,L]
+
+
