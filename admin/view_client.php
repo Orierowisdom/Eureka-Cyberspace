@@ -57,7 +57,7 @@
                   
                     </p>
                     <a href="#pablo" class="btn btn-primary btn-round btn-sm">View Refree</a>
-                    <a href="#pablo" class="btn btn-danger btn-round btn-sm">Delete</a>
+                    <a href="delete.php?id=<?php echo $client->id ?>&class=Client&link=view_client.php" class="btn btn-danger btn-round btn-sm">Delete</a>
                   </div>
                 </div>
               </div>

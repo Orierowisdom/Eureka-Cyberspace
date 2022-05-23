@@ -76,7 +76,7 @@
                                                                 <tr>
                                                                     <td><img src="<?php echo $client->logo ?>" alt="img" /> <br>
                                                                         <div>
-                                                                            <a class="text-primary" href="delete.php?id=<?php echo $partner->id ?>&class=Partner&link=partners_list.php">Delete</a>
+                                                                            <a class="text-primary" href="delete.php?id=<?php echo $client->id ?>&class=Client&link=clients_list.php">Delete</a>
                                                                             <!--
                                                                                  <a class="text-primary" href="edit_partner.php?&id=<?php //echo $partner->id ?>">Edit</a> -->
                                                                             <!--      <a class="text-primary" href=".php?id=--><?php //echo $partner->id  ?>  <!--">View</a>-->

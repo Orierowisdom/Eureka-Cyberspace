@@ -17,7 +17,61 @@ class Partner extends Db_object {
     public $partner_email;
     public $fone_number;
 
+ 
+    public $upload_directory ='assets'. DS.'img'.DS.'affiliate';
+    public $errors = array();
 
+
+
+public function upload_error($error){
+    $upload_errors = array(
+
+        UPLOAD_ERR_OK => "There is no error",
+        UPLOAD_ERR_INI_SIZE => "The uploaded file exceeds the upload_max_filesize directive",
+        UPLOAD_ERR_FORM_SIZE => "The file exceeds the MAX_FILE_SIZE (1mb) in form",
+        UPLOAD_ERR_PARTIAL => "The uploaded file was only partial uploaded",
+        UPLOAD_ERR_NO_FILE => "No file was uploaded.",
+        UPLOAD_ERR_NO_TMP_DIR => "Missing a temporary folder",
+        UPLOAD_ERR_CANT_WRITE => "Failed to write file to disk",
+        UPLOAD_ERR_EXTENSION => "A PHP extension stopped the file upload"
+    );
+    return $upload_errors[$error];
+}
+
+
+public function set_file($file)
+{   
+    if($file['error'] > 0 ){
+        $this->error[]= upload_error($file['error'] );
+        return false;
+     }else{
+        
+        $file_temp=$file['tmp_name'];
+        $this->image = basename( $file['name']);
+        $target_path =  SITE_ROOT . DS . 'admin' . DS .$this->upload_directory.DS.$this->image;
+     
+     if (move_uploaded_file($file_temp,$target_path )){
+         return "file upload suceeded";
+     }
+     else{  
+        $this->error[]= "file upload failed";
+        return false;
+        }
+     
+    }
+
+}
+
+
+public function delete_photo(){
+    if ($this->delete()) {
+        $target_path = SITE_ROOT . DS . 'admin' . DS . DS .$this->upload_directory.DS.$this->image ;;
+        return unlink($target_path) ? true : false;
+    } else {
+        return "false";
+    }
+
+}
 
 
     public static function create_partner($full_name='', $gender='', $country, $state, $date_time, $affiliate_code, $bank_name, $account_number, $image, $partner_email, $fone_number)

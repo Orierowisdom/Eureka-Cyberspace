@@ -21,11 +21,18 @@ if(isset($_POST['register']))
     $Client->business_name = trim($_POST['business_name']);
     $Client->page_number = trim($_POST['page_number']);
     $Client->partner_refferal_id = trim($_POST['partner_refferal_id']);
-    
-    $Client->business_industry = empty( $Client->business_industry)? trim($_POST['business_industry']) : trim($_POST['user_specify']);
+
+    /*
+     use the first select option or the the text box if the 
+     user choose to specifices
+     */
+
+    if(empty(trim($_POST['business_industry']))){
+     $Client->business_industry = trim($_POST['user_specify']);
+    }else{  $Client->business_industry = trim($_POST['user_specify']); }
+ 
     $Client->site_type = trim($_POST['site_type']);
     $Client->site_package = trim($_POST['site_package']);
-
     $Client->business_summary ='business_summary';
     $Client->logo ='logo';
     // $Client->business_summary = $_FILES['image']['name'];
@@ -38,44 +45,19 @@ if(isset($_POST['register']))
     // echo "</prev>";
 
    $Client->save();
-   redirect("index.php");
-   $message = "Account created successfully ";
+  if(!empty($affiliate_id)){
+    redirect( strval("payment.php?id={$affiliate_id}"));
+  }else{   redirect('payment.php?id=00');}
+  
+  // $message = "Account created successfully ";
+
 }
 
 ?>
+<!-- header start -->
+<?php include('includes/customer_header.php');?>
+<!-- header end -->
 
-
-
-
-
-
-
-
-
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description"
-        content=" Eureka Cyberspace serves clients in producing attractive designs, websites and prints.">
-    <meta name="keywords"
-        content="website, Programming, Web developers, seo, wordpress, HTML, CSS, JS, React, UI, UX, Branding, Javascript, HTML, CSS, Frontend, Backend">
-    <meta name="author" content="Eureka Cyberspace">
-    <title>Customer--Registeration--Eureka Cyberspace | Web &amp; Mobile Developer In Nigeria </title>
-
-    <!-- Styles -->
-    <link href="Assets/css/page.min.css" rel="stylesheet">
-    <link href="Assets/css/style.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <!-- favicon -->
-    <link rel="shortcut icon" href="../Assets/img/eureka fav.png" type="image/x-icon">
-</head>
 
 <body id="home">
     <!-- Navbar -->
@@ -127,6 +109,8 @@ if(isset($_POST['register']))
                 <h2>Register your new Website</h2>
                 <p class="lead">Please fill out all fields with accurate details for easy communications and set up!</p>
             </header>
+            
+            <div class="bg-danger"> <?php echo $message?></div>
 
      <form action="" method="post" enctype="multipart/form-data">
             <div class="row gap-y">
@@ -136,13 +120,12 @@ if(isset($_POST['register']))
 
                     <div id="formid" class="form-group">
                         <label>Full Name</label>
-                        <input  name='full_name' required class="form-control form-control-sm" type="text"
-                            placeholder="Enter Full Name" value="">
+                        <input  name='full_name' required class="form-control" type="text" placeholder="Enter Full Name">
                     </div>
 
                     <div class="form-group">
                         <label>Phone Number</label>
-                        <input class="form-control form-control-lg" required name='phone_number' type="text" placeholder="Enter Phone Number">
+                        <input class="form-control form-control-lg" required name='phone_number' maxlength=12 type="text" placeholder="Enter Phone Number">
                     </div>
 
                     <div class="form-group">
@@ -152,7 +135,8 @@ if(isset($_POST['register']))
                   
                     <div class="form-group">
                 <label for="affiliate_code"> Refferal ID</label> 
-                  <input name="partner_refferal_id" value="<?php echo $affiliate_id?>" class="form-control" type="text" readonly >
+                  <input name="partner_refferal_id" value="<?php  if(empty($affiliate_id)){ echo '00'; }else{  echo $affiliate_id;}
+                     ?>" class="form-control" type="text" readonly >
                     </div>
 
                 </div>
@@ -163,13 +147,13 @@ if(isset($_POST['register']))
                
                      <div class="form-group">
                         <label>Business Name</label>
-                        <input class="form-control form-control-lg" name='business_name' type="text"
+                        <input class="form-control form-control-sm" name='business_name' type="text"
                             placeholder="Enter Business Email address">
                     </div> 
 
                     <div class="form-group">
                         <label>Website package</label>
-                        <select class="form-control" required name="site_package">
+                        <select class="form-control form-control-sm" required name="site_package">
                             <option selected disabled>---Select---</option>
                             <optgroup label="Basic Package">
                                 <option value="Basic Promo">Basic Promo price</option>
@@ -191,7 +175,7 @@ if(isset($_POST['register']))
 
                     <div class="form-group">
                         <label>Number of Pages</label>
-                        <select class="form-control" required name="page_number">
+                        <select class="form-control form-control-sm" required name="page_number">
                             <option selected disabled>---Select---</option>
                             <option value="Standard Price">One Page</option>
                             <option>Multi Paged</option>
@@ -202,7 +186,7 @@ if(isset($_POST['register']))
 
                     <div class="form-group">
                         <label>Nature of Business</label>
-                        <select class="form-control"  name="business_industry">
+                        <select class="form-control form-control-sm"  name="business_industry">
                         
                         <option selected disabled>-- select one --</option>
                             <optgroup label="Healthcare Practitioners and Technical Occupations:">                           
@@ -280,7 +264,7 @@ if(isset($_POST['register']))
 
                         <div class="form-group">
                             <label>Business not Listed? Specify</label>
-                            <input class="form-control " name="user_specify" type="text"
+                            <input class="form-control form-control-sm" name="user_specify" type="text"
                                 placeholder="Specify Nature of Business">
                         </div>
                     </div>
@@ -291,7 +275,7 @@ if(isset($_POST['register']))
                         <label>Upload Logo</label>
 
                         <div class="custom-file">
-                            <input type="file" name="logo"class="custom-file-input" id="customFile" accept=".png, .jpg, .jpeg">
+                            <input type="file" name="logo"class="custom-file-input" accept=".png, .jpg, .jpeg">
                             <label class="custom-file-label" for="logo">Choose file</label>
                         </div>
                     </div> 
@@ -300,7 +284,7 @@ if(isset($_POST['register']))
                         <label>Upload Business Profile</label>
 
                         <div class="custom-file"  >
-                            <input type="file" class="custom-file-input"  name="business_summary" id="customFile" accept=".png, .jpg, .jpeg">
+                            <input type="file" class="custom-file-input"  name="business_summary"  accept=".png, .jpg, .jpeg">
                             <label class="custom-file-label" for="business_summary">Choose file</label>
                         </div>
                     </div>
@@ -329,175 +313,14 @@ if(isset($_POST['register']))
 
 
 
+<!-- footer start -->
+<?php include('includes/footer.php');?>
+<!-- footer end -->
 
 
-    <!-- Footer -->
-    <footer class="footer bg-gray py-7">
-        <div class="container">
-            <div class="row gap-y">
-
-                <div class="col-md-6 col-xl-4">
-                    <p><a href="./index.php"><img src="./Assets/img/eureka logo.png" alt="logo"></a></p>
-                    <!-- <p>We strongly believe in the power of team work for a business to posses a functional and
-                        high-performing structure.</p> -->
-                </div>
-
-                <div class="col-6 col-md-3 col-xl-2">
-                    <h6 class="mb-4 mt-1"><strong>Company</strong></h6>
-                    <div class="nav flex-column">
-                        <a class="nav-link" href="https://eureka.gwlservices.com.ng/#features">Features</a>
-                        <a class="nav-link" href="https://eureka.gwlservices.com.ng/#footer">Contact</a>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-3 col-xl-2">
-                    <h6 class="mb-4 mt-1"><strong>Product</strong></h6>
-                    <div class="nav flex-column">
-                        <a class="nav-link" href="https://eureka.gwlservices.com.ng/#pricing">Pricing</a>
-                        <a class="nav-link" href="https://eureka.gwlservices.com.ng/#customers">Customers</a>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-6 col-xl-2">
-                    <h6 class="mb-4 mt-1"><strong>Support</strong></h6>
-                    <div class="nav flex-column">
-                        <a class="nav-link" href="#">Developers</a>
-                        <a class="nav-link" href="./affiliate/index.php">Become am affiliate</a>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-6 col-xl-2 text-center">
-                    <p><a class="btn btn-block btn-round btn-success"
-                            href="https://wa.me/message/57I4SOE3TTGZH1">Whatsapp</a></p>
-                    <p><a class="btn btn-block btn-round btn-primary" href="tel:+2348081742583">Call Us</a></p>
-                    <br>
-                    <div class="social social-bordered">
-                        <a class="social-facebook" href="#"><i class="fa fa-facebook"></i></a>
-                        <a class="social-twitter" href="#"><i class="fa fa-twitter"></i></a>
-                        <a class="social-youtube" href="#"><i class="fa fa-youtube"></i></a>
-                        <a class="social-instagram" href="#"><i class="fa fa-instagram"></i></a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </footer><!-- /.footer -->
+   
 
 
-
-
-
-
-    <!-- Promotion 3 -->
-    <div id="success" class="popup bg-img text-white border-0 col-10 col-md-4 p-6" data-position="top-center"
-        data-animation="slide-down"
-        style="background: url(https://media.istockphoto.com/photos/making-her-mark-picture-id889512880?k=20&m=889512880&s=612x612&w=0&h=WACp5-j3wiUxlznlx8P1L2WE-o4qzS2lxninoNR9AbQ=)  no-repeat rgb(133, 92, 5) ; background-blend-mode: multiply; background-size: cover;"
-        data-overlay="1">
-        <!-- <button type="button" class="close" data-dismiss="popup" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button> -->
-
-        <div class="text-center position-relative">
-            <h3>Great Job <b class="fw-600" id="clientnameview"></b></h3>
-            <h3 class="fw-600">Your Registration Was Successful</h3>
-            <p class="lead-1">You can proceed to Payment</p>
-            <br>
-            <a href="#" aria-label="Close" class="btn btn-lg btn-danger px-7" data-toggle="offcanvas"
-                data-target="#offcanvas-slide-left" data-dismiss="popup">Proceed to Payment</a>
-
-        </div>
-    </div>
-
-
-
-    <!-- Payment modal -->
-    <div id="offcanvas-slide-left" class="offcanvas" data-animation="slide-left">
-        <button type="button" class="close btn" data-dismiss="offcanvas" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-
-        <section class="section text-center">
-            <div class="container">
-
-                <header class="section-header">
-
-
-                    <div class="row">
-
-                        <form id="formonline" class="col-md-4 col-xl-4 mx-auto input-border">
-                            <p class="fw-600">You selected the Basic Promo Package</p>
-                            <small class="fw-200">Your expected bill is <b> NGN25,000</b></small>
-
-                            <div id="formid" class="form-group">
-                                <label>Full Name</label>
-                                <input id="clientsname" name="clientsname" class="form-control form-control-sm"
-                                    type="text" placeholder="Enter Full Name">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Email Address</label>
-                                <input id="payemail" name="payemail" class="form-control form-control-lg" type="text"
-                                    placeholder="Enter Email address">
-                            </div>
-                            <button type="button" class="btn  btn-xl btn-success" id="payonline">Pay Now</button>
-
-                        </form>
-
-                    </div>
-
-            </div>
-        </section>
-    </div>
-    </div>
-
-    <!-- Scripts -->
-
-
-    <script>
-        document.getElementById("payonline").addEventListener("click", () => {
-         alert("clicked");
-            const onlineform = document.getElementById("formonline").elements;
-         
-            //declaring variable to get personal info data from input
-            var a = onlineform.namedItem("clientsname").value;
-            var b = onlineform.namedItem("payemail").value;
-
-            clientsnamee.value = a;
-            clientsemaill.value = b;
-            makePayment()
-        });
-        const clientsnamee = document.getElementById("clientsname");
-        const clientsemaill = document.getElementById("payemail");
-
-
-        function makePayment() {
-
-            FlutterwaveCheckout({
-                public_key: "FLWPUBK_TEST-SANDBOXDEMOKEY-X",
-                tx_ref: "titanic-48981487343MDI0NzMx",
-                amount: 25000,
-                currency: "NGN",
-                payment_options: "card, banktransfer, ussd",
-                redirect_url: "https://eureka.gwlservices.com.ng/",
-                meta: {
-                    consumer_id: 23,
-                    consumer_mac: "92a3-912ba-1192a",
-                },
-                customer: {
-                    email: document.getElementById("payemail").value,
-                    phone_number: "08102909304",
-                    name: document.getElementById("clientsname").value,
-                },
-                customizations: {
-                    title: "Eureka Cyberspace",
-                    description: "Webdesign Promo package paymment",
-                    logo: "https://eureka.gwlservices.com.ng/affiliate/Assets/img/eureka%20logo.png",
-                },
-            });
-        }
-    </script>
-
-    <script src="https://checkout.flutterwave.com/v3.js"></script>
     <script src="Assets/Js/page.min.js"></script>
     <script src="Assets/Js/script.js"></script>
 

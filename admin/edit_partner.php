@@ -1,19 +1,35 @@
 <?php include "includes/admin_header.php" ?>
+
 <!-- header end -->
 <?php
-if (!$session->is_signed_in()) {
-    redirect("login.php");
-} ?>
+if (!$session->is_signed_in()) { redirect("login.php");} ?>
 
 <?php
-if (empty($_GET['id'])) {
-    redirect("partners_list.php");
-}
+if (empty($_GET['id'])) {  redirect("partners_list.php");}
 
 $Partner =  Partner::find_by_id($_GET['id']);
 $message = '';
 
+
+
 if (isset($_POST['Update'])) {
+
+//     echo"<pre>";
+//     print_r( $_FILES['image']);
+//     echo"</pre>";
+//    $Partner_image_temp = $_FILES['image']['tmp_name'];
+
+//    $data = file_get_contents( $_FILES['image']['tmp_name']);
+//    echo nl2br($data);
+
+
+  
+}
+
+
+
+if (isset($_POST['Update'])) {
+
 
     if ($Partner) {
         $Partner->full_name = trim($_POST['full_name']);
@@ -24,19 +40,21 @@ if (isset($_POST['Update'])) {
         $Partner->affiliate_code = trim($_POST['affiliate_code']);
         $Partner->bank_name = trim($_POST['bank_name']);
         $Partner->account_number = trim($_POST['account_number']);
-        $Partner->image = 'image';
-
-        // $Partner->image = $_FILES['image']['name'];
-        // $Partner_image_temp = $_FILES['image']['tmp_name'];
+        // $Partner->image = 'image';
 
         $Partner->partner_email = trim($_POST['partner_email']);
         $Partner->fone_number = trim($_POST['fone_number']);
 
-        // move_uploaded_file($Partner_image_temp, "./Assets/img/$Partner->image");
-        $Partner->save();
+        $Partner->image = $_FILES['image']['name'];
+
+        $Partner->set_file($_FILES['image']);
+     
+   
+
+        // $Partner->save();
     }
 
-    redirect("partners_list.php");
+    // redirect("partners_list.php");
     $message = " ";
 }else{
     echo"filed";
@@ -75,12 +93,14 @@ if (isset($_POST['Update'])) {
 
                             <form action="" method="post" class="input-glass" enctype="multipart/form-data">
 
-                                <!-- <h5>Upload Photo</h5>
-<div class="custom-file mb-3">
-    <input name="image" type="file" required class="custom-file-input" id="customFile"
-        accept=".png, .jpg, .jpeg">
-    <label class="custom-file-label" for="customFile">Choose file</label>
-</div>  -->
+                                 <h5>Upload Photo</h5>
+                                <div class="custom-file mb-3">
+                                <input name="MAX_FILE_SIZE" type="hidden" required value="1000000">
+                                <input name="image" type="file" required  id="customFile" accept=".png, .jpg, .jpeg">
+                                <!-- <label class="custom-file-label" for="customFile">Choose file</label> -->
+                                </div>  
+
+                                
 
 
                                 <h5>Personal Details</h5>

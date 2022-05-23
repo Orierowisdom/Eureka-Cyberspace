@@ -167,12 +167,14 @@ else {
      <form action="form.php" method="post" class="input-glass" enctype="multipart/form-data">
 
                        
-<!-- <h5>Upload Photo</h5>
-<div class="custom-file mb-3">
-    <input name="image" type="file" required class="custom-file-input" id="customFile"
-        accept=".png, .jpg, .jpeg">
-    <label class="custom-file-label" for="customFile">Choose file</label>
-</div>  -->
+
+     <h5>Upload Photo</h5>
+ <div class="custom-file mb-3">
+ <input name="MAX_FILE_SIZE" type="hidden" required value="1000000">
+ <input name="image" type="file" required  id="customFile" accept=".png, .jpg, .jpeg">
+ <!-- <label class="custom-file-label" for="customFile">Choose file</label> -->
+ </div>  
+
 
 
 <h5>Personal Details</h5>
@@ -193,7 +195,7 @@ else {
 
 <div class="form-group">
 <label for="full_name"> Phone Number</label>
-    <input name="fone_number" required class="form-control" type="text"  >
+    <input name="fone_number" required  maxlength=12 class="form-control" type="text"  >
 </div>
 
 <label for="full_name">Email Address </label>
