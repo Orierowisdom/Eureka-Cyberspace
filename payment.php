@@ -1,7 +1,8 @@
 <?php require_once ('./admin/init.php');?>
 
 <?php if(isset($_GET['code'])){  
-     $affiliate_id = $_GET['code'];  $package=$_GET['package'] ;}
+     $affiliate_id = $_GET['code']; 
+     $package = $_GET['package'] ;}
     
 ?>
 
@@ -87,38 +88,41 @@
 
                     <div class="row">
 
-                        <form action="" mehod="" id="formonline" class="col-md-4 col-xl-4 mx-auto input-border">
+                        <form method="POST" action="https://checkout.flutterwave.com/v3/hosted/pay" id="formonline" class="col-md-4 col-xl-4 mx-auto input-border">
+                            
                             <p class="fw-600">You selected the Basic Promo Package</p>
                             <small class="fw-200">Your expected bill is <b> N<?php echo $package ?> </b></small>
 
                             <div id="formid" class="form-group">
                                 <label>Full Name</label>
-                                <input id="clientsname" name="clientsname" class="form-control form-control-sm"
+                                <input name="customer[name]" class="form-control form-control-sm"
                                     type="text" placeholder="Enter Full Name">
                             </div>
 
                             <div class="form-group">
                                 <label>Email Address</label>
-                                <input id="payemail" name="payemail" class="form-control form-control-lg" type="text"
+                                <input name="customer[email]" class="form-control form-control-lg" type="text"
                                     placeholder="Enter Email address">
                             </div>
                         <!--     
-                            this part ae hiden form client and value are automatically 
-                            generated from previous form input   
-
-                              id= affiliate code
-                             amount= from amount selected
+                            this part ae hiden form client and value are automatically generated from previous form input   
+                              id= affiliate code   amount= from amount selected
                                                          -->
-                            <div class="form-group">
-                                <input id="clientsid" hidden name="id" class="form-control form-control-lg" type="text"
-                                    value="<?php echo $affiliate_id;?>">
-                            </div>
-                            <div class="form-group">
-                                <input id="clientsamount" hidden  name="amount" class="form-control form-control-lg" type="text"
-                                value="<?php echo $package;?>">
-                            </div>
+                          <input type="hidden" name="public_key" value="FLWPUBK_TEST-SANDBOXDEMOKEY-X" />
+                        <input type="hidden" name="customizations[title]" value="Eureka Cyberspace" />
+                        <input type="hidden" name="customizations[description]" value="Web design package paymment " />
+                        <input type="hidden" name="customizations[logo]" value="https://eurekacyberspace.com.ng/affiliate/Assets/img/eureka%20logo.png" />
+                       
+                        <input type="hidden" name="tx_ref" value="titanic-48981487343MDI0NzMx" />
+                        <input type="hidden" name="amount" value="<?php echo $package ?>"/>
+                        <input type="hidden" name="currency" value="NGN" />
 
-                            <button type="submit" class="btn  btn-xl btn-success" id="payonline">Pay Now</button>
+                        
+                         <input type="hidden" name="meta[token]" value="54" /> 
+                        <input type="hidden" name="meta[consumer_id]" value="<?php echo $affiliate_id;?>" />
+                        <input type="hidden" name="redirect_url" value="https://eurekacyberspace.com.ng/" />
+                       
+                            <button type="submit" class="btn  btn-xl btn-success" >Pay Now</button>
 
                         </form>
 
@@ -132,7 +136,7 @@
     <!-- Scripts -->
 
 
-    <script>
+    <!-- <script>
         document.getElementById("payonline").addEventListener("click", () => {
        //  alert("clicked");
             const onlineform = document.getElementById("formonline").elements;
@@ -181,7 +185,7 @@
                 },
             });
         }
-    </script>
+    </script> -->
 
     <script src="https://checkout.flutterwave.com/v3.js"></script>
     <script src="Assets/Js/page.min.js"></script>

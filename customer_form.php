@@ -160,10 +160,10 @@ if(isset($_POST['register']))
                         <select class="form-control form-control-sm" required name="site_package">
                         <option  value=""> --Select--</option>
                             
-                                <option value="25,000">Basic Promo price</option>
-                                <option value="70,000">Basic Standard price</option>
-                                <option value="100,000">Standard Promo price</option>
-                                <option value="150,000">Standard price</option>
+                                <option value="25000">Basic Promo price</option>
+                                <option value="70000">Basic Standard price</option>
+                                <option value="100000">Standard Promo price</option>
+                                <option value="150000">Standard price</option>
                         </select>
                     </div>
 

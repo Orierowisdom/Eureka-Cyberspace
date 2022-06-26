@@ -1,5 +1,11 @@
 <?php require_once ('admin/init.php');?>
 
+<?php //if (//isset($_GET['status']) && isset($_GET['transaction_id'])){
+
+    //return success();
+
+//}?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -742,13 +748,17 @@
     </footer>
     <!-- /.footer -->
 
+    <?php
+    function success(){ ?>
+
     <div class="col-md-4 col-xl-4">
         <button class="btn btn-lg btn-block btn-outline-secondary" href="#success" type="button" data-toggle="popup"
             data-target="#success">Success</button>
     </div>
     <!-- Promotion 3 -->
     <div id="success" class="popup bg-img text-white border-0 col-10 col-md-4 p-6" data-position="top-center"
-        data-animation="slide-down" style="background-image: url(./Assets/img/demo/pricing1.png)" data-overlay="1">
+        data-animation="slide-down"  style="background: url(https://media.istockphoto.com/photos/making-her-mark-picture-id889512880?k=20&m=889512880&s=612x612&w=0&h=WACp5-j3wiUxlznlx8P1L2WE-o4qzS2lxninoNR9AbQ=)  no-repeat rgb(133, 92, 5) ; background-blend-mode: multiply; background-size: cover;"
+        data-overlay="1">
         <button type="button" class="close" data-dismiss="popup" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -764,6 +774,9 @@
                     us on Instagram</a></p>
         </div>
     </div>
+    <?php
+}
+    ?>
 
     <!-- Scripts -->
     <script src="Assets/Js/page.min.js"></script>
