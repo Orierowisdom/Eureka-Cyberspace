@@ -17,39 +17,42 @@ if(isset($_POST['register']))
     $Client->full_name = trim($_POST['full_name']);
     $Client->phone_number = trim($_POST['phone_number']);
     $Client->personal_email = trim($_POST['personal_email']);
-    $Client->date = date('d.m.y');
     $Client->business_name = trim($_POST['business_name']);
     $Client->page_number = trim($_POST['page_number']);
     $Client->partner_refferal_id = trim($_POST['partner_refferal_id']);
 
     /*
      use the first select option or the the text box if the 
-     user choose to specifices
+     user choose to specify
      */
 
     if(empty(trim($_POST['business_industry']))){
      $Client->business_industry = trim($_POST['user_specify']);
-    }else{  $Client->business_industry = trim($_POST['user_specify']); }
+    }else{  $Client->business_industry = trim($_POST['business_industry']); }
  
+    /*  ******************************** */
+    
     $Client->site_type = trim($_POST['site_type']);
     $Client->site_package = trim($_POST['site_package']);
-    $Client->business_summary ='business_summary';
-    $Client->logo ='logo';
-    // $Client->business_summary = $_FILES['image']['name'];
-    // $Client_image_temp = $_FILES['image']['tmp_name'];
 
-    // move_uploaded_file($Client_image_temp, "./Assets/img/$Client->image");
-    // echo "<prev>";
+    if(!$Client->set_file($_FILES['logo']) && !$Client->set_file($_FILES['business_summary'])){
 
-    // var_dump($Client);
-    // echo "</prev>";
+        $file_upload_msg = join("<br>", $Client->errors);
+    }
+    $Client->save();
+   
+    if(!empty($affiliate_id)){
+      redirect( strval("payment.php?code={$affiliate_id}&package=$Client->site_package"));
+    }else{ 
+      redirect("payment.php?code=00&package={$_POST['site_package']}");
+     }
 
-   $Client->save();
-  if(!empty($affiliate_id)){
-    redirect( strval("payment.php?id={$affiliate_id}"));
-  }else{   redirect('payment.php?id=00');}
-  
-  // $message = "Account created successfully ";
+//  echo "<pre>";
+
+//         var_dump( $Client);
+//         echo "</pre>";
+    
+    
 
 }
 
@@ -110,7 +113,8 @@ if(isset($_POST['register']))
                 <p class="lead">Please fill out all fields with accurate details for easy communications and set up!</p>
             </header>
             
-            <div class="bg-danger"> <?php echo $message?></div>
+             <p class="bg-danger text-center"> <?php if (!empty($file_upload_msg)) {echo $file_upload_msg; };?></p>
+            <p class="bg-danger text-center"> <?php if (!empty($message)) { echo $message; };?></p>
 
      <form action="" method="post" enctype="multipart/form-data">
             <div class="row gap-y">
@@ -147,27 +151,26 @@ if(isset($_POST['register']))
                
                      <div class="form-group">
                         <label>Business Name</label>
-                        <input class="form-control form-control-sm" name='business_name' type="text"
+                        <input class="form-control form-control-sm" required name='business_name' type="text"
                             placeholder="Enter Business Email address">
                     </div> 
 
                     <div class="form-group">
                         <label>Website package</label>
                         <select class="form-control form-control-sm" required name="site_package">
-                            <option selected disabled>---Select---</option>
-                            <optgroup label="Basic Package">
-                                <option value="Basic Promo">Basic Promo price</option>
-                                <option value="Basic Standard">Basic Standard price</option>
-                            <optgroup label="Standard Package">
-                                <option value="Standard Promo">Standard Promo price</option>
-                                <option value="Standard Price">Standard price</option>
+                        <option  value=""> --Select--</option>
+                            
+                                <option value="25,000">Basic Promo price</option>
+                                <option value="70,000">Basic Standard price</option>
+                                <option value="100,000">Standard Promo price</option>
+                                <option value="150,000">Standard price</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label>Type of website</label>
                         <select class="form-control form-control-sm"  required name="site_type">
-                            <option selected disabled>---Select---</option>
+                            <option value="">--Select--</option>
                             <option value="Personal"> Personal</option>
                             <option value="Business">Business</option>
                         </select>
@@ -176,21 +179,20 @@ if(isset($_POST['register']))
                     <div class="form-group">
                         <label>Number of Pages</label>
                         <select class="form-control form-control-sm" required name="page_number">
-                            <option selected disabled>---Select---</option>
-                            <option value="Standard Price">One Page</option>
-                            <option>Multi Paged</option>
-                            <option>Decide for me</option>
+                            <option value="">--Select--</option>
+                            <option value="one page">One Page</option>
+                            <option value="Multi page">Multi Paged</option>
+                            <option value="Decide for me">Decide for me</option>
                         </select>
                     </div>
 
 
                     <div class="form-group">
                         <label>Nature of Business</label>
-                        <select class="form-control form-control-sm"  name="business_industry">
+                        <select class="form-control form-control-sm"  name="business_industry" >
                         
-                        <option selected disabled>-- select one --</option>
-                            <optgroup label="Healthcare Practitioners and Technical Occupations:">                           
-                            <option value=""></option>
+                        <option value="">select one</option>
+                           
                                 <option value="Dentist"> -Dentist</option>
                                 <option value="Dietitian"> -Dietitian </option>
                                 <option value="Optometrist">-Optometrist</option>
@@ -200,9 +202,6 @@ if(isset($_POST['register']))
                                 <option value="Veterinarian">-Veterinarian</option>
                                 <option value=" Health Technologist">-Health Technologist</option>
                                 <option value="Nursing">- Nursing</option>
-                            </optgroup>
-                           
-                            <optgroup label="Business, Executive, Management, and Financial Occupations:">
                                 <option value="Operations Manager">-Operations Manager</option>
                                 <option value="Advertising">-Advertising</option>
                                 <option value=" HR Manage">- HR Manager</option>
@@ -212,13 +211,10 @@ if(isset($_POST['register']))
                                 <option value="Business Operations">-Business Operations </option>
                                 <option value=" Business Owner">-Business Owner</option>
                                 </option>
-                            </optgroup>
-                            <optgroup label="Architecture and Engineering Occupations:">
+                         
                                 <option value="Architect">-Architect</option>
                                 <option value="Engineer">-Engineer</option>
-                            </optgroup>
-                           
-                            <optgroup label="Other Professional Occupations:">
+                            
                                 <option value="Entertainment, Sports, ">-Entertainment, Sports</option>
                                 <option value="Computer Specialist">- Computer Specialist</option>
                                 <option value="Counselor, Social Worker">- Counselor, Social Worker
@@ -230,9 +226,6 @@ if(isset($_POST['register']))
                                     Hydrologist)</option>
                                 <option value=" Religious Worker">- Religious Worker (e.g., Clergy, Director of Religious Activities or
                                     Education)</option>
-                            </optgroup>
-                          
-                            <optgroup label="Services Occupations:">
                                 
                                 <option value="Building and Grounds">- Building and Grounds Cleaning and Maintenance</option>
                                 <option value=" Personal Care and Service ">- Personal Care and Service (e.g., Hairdresser, Flight Attendant,
@@ -241,25 +234,19 @@ if(isset($_POST['register']))
                                 <option value="Insurance Sales Agent">- Insurance Sales Agent</option>
                                 <option value="Sales Representative">-Sales Representative</option>
                                 <option value="Real Estate Sales Agent">- Real Estate Sales Agent</option>
-                            </optgroup>
-                            <optgroup label="Agriculture, Maintenance, Repair, and Skilled Crafts Occupations:">
+                         
                                 <option value="Construction and Extraction ">- Construction and Extraction (e.g., Construction Laborer,
                                     Electrician)</option>
                                 <option value="Farming, Fishing, and Forestry">- Farming, Fishing, and Forestry</option>
                                 <option value="Installation, Maintenance">- Installation, Maintenance, and Repair</option>
                                 <option value="Production Occupations">- Production Occupations</option>
                                     Occupation</option>
-                            </optgroup>
-                            <optgroup label="Transportation Occupations:">
                                 <option value="Aircraft Pilot or Flight Engineer">- Aircraft Pilot or Flight Engineer</option>
                                 <option value="Motor Vehicle Operator">- Motor Vehicle Operator (e.g., Ambulance, Bus, Taxi, or Truck
                                     Driver)</option>
-                            </optgroup>
-                            <optgroup label="Other Occupations:">
                                 <option value="Military">- Military</option>
                                 <option value="Homemaker">- Homemaker</option>
                                 <option value="Not Applicable">- Not Applicable</option>
-                            </optgroup>
                         </select>
 
                         <div class="form-group">
@@ -275,8 +262,9 @@ if(isset($_POST['register']))
                         <label>Upload Logo</label>
 
                         <div class="custom-file">
-                            <input type="file" name="logo"class="custom-file-input" accept=".png, .jpg, .jpeg">
-                            <label class="custom-file-label" for="logo">Choose file</label>
+                        <input name="MAX_FILE_SIZE" type="hidden"  value="1000000">
+                            <input type="file" required name="logo"class="" accept=".png, .jpg, .jpeg">
+                            <!-- <label class="custom-file-label" for="logo">Choose file</label> -->
                         </div>
                     </div> 
 
@@ -284,8 +272,9 @@ if(isset($_POST['register']))
                         <label>Upload Business Profile</label>
 
                         <div class="custom-file"  >
-                            <input type="file" class="custom-file-input"  name="business_summary"  accept=".png, .jpg, .jpeg">
-                            <label class="custom-file-label" for="business_summary">Choose file</label>
+                        <input name="MAX_FILE_SIZE" type="hidden"  value="2000000">
+                            <input type="file" class="" required name="business_summary"  accept=".txt, .docx, .doc">
+                            <!-- <label class="custom-file-label" for="business_summary">Choose file</label> -->
                         </div>
                     </div>
 

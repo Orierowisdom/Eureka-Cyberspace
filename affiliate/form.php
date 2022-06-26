@@ -1,5 +1,6 @@
 <?php require_once ('../admin/init.php');?>
 
+
 <?php 
 $message='';
 
@@ -7,83 +8,77 @@ if(isset($_POST['Register']))
 {
 
 
-    // $Partner= new Partner();
+     $Partner= new Partner();
+     if($Partner){
 
-    // $Partner->full_name = trim($_POST['full_name']);
-    // $Partner->country = trim($_POST['country']);
-    // $Partner->gender = trim($_POST['gender']);
-    // $Partner->state = trim($_POST['state']);
-    // $Partner->date_time = date('d.m.y');
-    // $Partner->affiliate_code = trim($_POST['affiliate_code']);
-    // $Partner->bank_name = trim($_POST['bank_name']);
-    // $Partner->account_number = trim($_POST['account_number']);
-    // $Partner->image ='image';
-    
-    // $Partner->image = $_FILES['image']['name'];
-    // $Partner_image_temp = $_FILES['image']['tmp_name'];
+     if(!$Partner->set_file($_FILES['image'])){
+           
+        $file_upload_msg = join("<br>", $Partner->errors);
+    }
+    else{
 
-    // $Partner->partners_email = trim($_POST['partner_email']);
-    // $Partner->fone_number = trim($_POST['fone_number']);
+    $Partner->full_name = trim($_POST['full_name']);
+    $Partner->country = trim($_POST['country']);
+    $Partner->gender = trim($_POST['gender']);
+    $Partner->state = trim($_POST['state']);
+    $Partner->affiliate_code = trim($_POST['affiliate_code']);
+    $Partner->bank_name = trim($_POST['bank_name']);
+    $Partner->account_number = trim($_POST['account_number']);
+    // $Partner->image = 'image';
 
-    // move_uploaded_file($Partner_image_temp, "./Assets/img/$Partner->image");
+    $Partner->partner_email = trim($_POST['partner_email']);
+    $Partner->fone_number = trim($_POST['fone_number']);
 
-//    $Partner->save();
-//    redirect("form.php");
-//    $message = "Account created successfully ";
-
+    $Partner->save();
+     redirect("form.php");
+       $message = "information saved success ";
+     }
+   
+    }else{
+        $message = "Failed ensure you fill all information ";
+     
+      }
    /***********************************
 alternative way with inpute validation
 *************************************/
 
-    $full_name = trim($_POST['full_name']);
-    $country = trim($_POST['country']);
-    $gender = trim($_POST['gender']);
-    $state = trim($_POST['state']);
-    $date_time = date('d.m.y');
-    $affiliate_code = trim($_POST['affiliate_code']);
-    $bank_name = trim($_POST['bank_name']);
-    $account_number = trim($_POST['account_number']);
-    $image = 'image';
-    
-    // $image = $_FILES['image']['name'];
-    // $Partner_image_temp = $_FILES['image']['tmp_name'];
+//     $full_name = trim($_POST['full_name']);
+//     $country = trim($_POST['country']);
+//     $gender = trim($_POST['gender']);
+//     $state = trim($_POST['state']);
+//     $date_time = date('y.m.d');
+//     $affiliate_code = trim($_POST['affiliate_code']);
+//     $bank_name = trim($_POST['bank_name']);
+//     $account_number = trim($_POST['account_number']);
 
-    $partners_email = trim($_POST['partner_email']);
-    $fone_number = trim($_POST['fone_number']);
+//     $image= $_FILES['image'];
+//     $partners_email = trim($_POST['partner_email']);
+//     $fone_number = trim($_POST['fone_number']);
 
 
-    $new_partner = Partner::create_partner($full_name, $gender, $country, $state,$date_time,$affiliate_code,$bank_name,$account_number,$image,$partners_email,$fone_number);
+//     $new_partner = Partner::create_partner($full_name, $gender, $country, $state,$date_time,$affiliate_code,$bank_name,$account_number,$image,$partners_email,$fone_number);
     
     
-    if ($new_partner && $new_partner->save()) {
-        redirect("form.php");
-        $message = "Account created successfully ";
+//     if ($new_partner && $new_partner->save()) {
+//         redirect("form.php");
+//         $message = "Account created successfully ";
       
-    } else {
-        $message = "pls enter all form field ";
-    }
+//     } else {
+//         $message = "pls enter all form field ";
+//     }
     
- }
-else {
-    $full_name='';
-    $gender='';
-    $country='';
-    $state='';
-    $date_time='';
-    $affiliate_code='';
-    $bank_name='';
-    $account_number='';
-    $image='';
-    $partners_email='';
-    $fone_number='';
-    
+//  }
+// else {
+//     $full_name=''; $gender=''; $country='';
+//     $state='';  $date_time='';  $affiliate_code='';
+//     $bank_name='';  $account_number='';  $image='';
+//     $partners_email='';  $fone_number='';
+//}
 
-}
+ }
 
 
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -156,19 +151,17 @@ else {
 
 
             <div class="row">
-                <div class="col-md-4 mx-auto">
+                <div class="col-md-6 mx-auto">
 
 
 
 
                     <!-- FORM -->
-
+                    <p class="bg-danger text-center"> <?php if (!empty($file_upload_msg)) {echo $file_upload_msg; };?></p>
+                 <p class="bg-danger text-center"> <?php if (!empty($message)) { echo $message; };?></p>
 
      <form action="form.php" method="post" class="input-glass" enctype="multipart/form-data">
-
-                       
-
-     <h5>Upload Photo</h5>
+     <h5>Upload Photo <small class="text-primary"> (picture size must not exceed 1mb)</small></h5>
  <div class="custom-file mb-3">
  <input name="MAX_FILE_SIZE" type="hidden" required value="1000000">
  <input name="image" type="file" required  id="customFile" accept=".png, .jpg, .jpeg">
@@ -179,7 +172,7 @@ else {
 
 <h5>Personal Details</h5>
 <div class="form-group">
-    <label for="full_name"> Full Name <small>(first name first)</small></label>
+    <label for="full_name"> Full Name <small class="text-primary">(first name first)</small></label>
     <input name="full_name"required class="form-control" type="text" >
 </div>
 
@@ -187,7 +180,7 @@ else {
 <div class="form-group">
 <label for="gender">Gender</label>
     <select class="form-control" required name='gender'  >
-    <option ></option>
+    <option value="">--Gender--</option>
         <option value="Male">Male</option>
         <option value="Female">Female</option>
     </select>
@@ -211,7 +204,7 @@ else {
 <div class="form-group ">
 <label for="country"> Country</label>
     <select class="form-control" required name="country"  >
-        <option selected="selected" disabled='disabled'> --Select Country--</option>
+        <option value=""> --Select Country--</option>
         <option value="Nigeria">Nigeria</option>
         <option value="Benin">Benin</option>
         <option value="Egypt">Egypt</option>
@@ -224,7 +217,7 @@ else {
 <div class="form-group ">
 <label for="state" > State</label>
     <select class="form-control" required name="state" >
-        <option selected="selected" disabled='disabled'> --Select state-- </option>
+        <option value=""> --Select state-- </option>
         <option value="ABUJA FCT" >ABUJA FCT</option>
         <option value="ABIA" >ABIA</option>
         <option value="ADAMAWA" >ADAMAWA</option>
@@ -271,7 +264,7 @@ else {
 <div class="form-group mt-4">
 <label for="bank_name"> Bank Name</label>
     <select class="form-control" required name="bank_name" >
-        <option selected='selected' disabled="disabled"> --Select Bank-- </option>
+        <option value=''> --Select Bank-- </option>
         <option value="access">Access Bank</option>
         <option value="citibank">Citibank</option>
         <option value="diamond">Diamond Bank</option>

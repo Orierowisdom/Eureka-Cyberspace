@@ -90,7 +90,7 @@
                                                                     <td><?php echo $client->site_type ?></td>
                                                                     <td><?php echo $client->site_package ?></td>
                                                                     <td><?php echo $client->page_number ?></td>
-                                                                    <td><?php echo $client->date ?></td>
+                                                                    <td><?php echo $client->date_time ?></td>
                                                                     <td><?php echo $client->business_industry ?></td>
                                                                     <td><?php echo $client->partner_refferal_id   ?></td>
                                                                     <td><?php echo $client->business_summary ?></td>

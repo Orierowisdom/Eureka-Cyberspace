@@ -1,7 +1,8 @@
 <?php require_once ('./admin/init.php');?>
 
 <?php if(isset($_GET['code'])){  
-     $affiliate_id = $_GET['code'] ;}
+     $affiliate_id = $_GET['code'];  $package=$_GET['package'] ;}
+    
 ?>
 
 <!-- header start -->
@@ -86,9 +87,9 @@
 
                     <div class="row">
 
-                        <form id="formonline" class="col-md-4 col-xl-4 mx-auto input-border">
+                        <form action="" mehod="" id="formonline" class="col-md-4 col-xl-4 mx-auto input-border">
                             <p class="fw-600">You selected the Basic Promo Package</p>
-                            <small class="fw-200">Your expected bill is <b> NGN25,000</b></small>
+                            <small class="fw-200">Your expected bill is <b> N<?php echo $package ?> </b></small>
 
                             <div id="formid" class="form-group">
                                 <label>Full Name</label>
@@ -109,14 +110,12 @@
                              amount= from amount selected
                                                          -->
                             <div class="form-group">
-                                <label>Email Address</label>
                                 <input id="clientsid" hidden name="id" class="form-control form-control-lg" type="text"
                                     value="<?php echo $affiliate_id;?>">
                             </div>
                             <div class="form-group">
-                                <label>Email Address</label>
                                 <input id="clientsamount" hidden  name="amount" class="form-control form-control-lg" type="text"
-                                value="<?php echo $amount;?>">
+                                value="<?php echo $package;?>">
                             </div>
 
                             <button type="submit" class="btn  btn-xl btn-success" id="payonline">Pay Now</button>
@@ -135,7 +134,7 @@
 
     <script>
         document.getElementById("payonline").addEventListener("click", () => {
-         alert("clicked");
+       //  alert("clicked");
             const onlineform = document.getElementById("formonline").elements;
          
             //declaring variable to get personal info data from input

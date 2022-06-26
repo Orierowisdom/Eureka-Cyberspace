@@ -2,7 +2,7 @@
 
 class Partner extends Db_object {
     protected static $db_table = 'Partners';
-    protected static $db_table_field = array( 'full_name','gender','country','state','date_time','affiliate_code',
+    protected static $db_table_field = array( 'full_name','gender','country','state','date_time()','affiliate_code',
                                                 'bank_name','account_number','image','partner_email','fone_number');
     public $id;
     public $full_name;
@@ -17,7 +17,7 @@ class Partner extends Db_object {
     public $partner_email;
     public $fone_number;
 
- 
+
     public $upload_directory ='assets'. DS.'img'.DS.'affiliate';
     public $errors = array();
 
@@ -42,7 +42,7 @@ public function upload_error($error){
 public function set_file($file)
 {   
     if($file['error'] > 0 ){
-        $this->error[]= upload_error($file['error'] );
+        $this->errors[]= $this->upload_error($file['error'] );
         return false;
      }else{
         
@@ -54,7 +54,7 @@ public function set_file($file)
          return "file upload suceeded";
      }
      else{  
-        $this->error[]= "file upload failed";
+        $this->errors[]= "file upload failed";
         return false;
         }
      
@@ -63,7 +63,7 @@ public function set_file($file)
 }
 
 
-public function delete_photo(){
+public function delete_file(){
     if ($this->delete()) {
         $target_path = SITE_ROOT . DS . 'admin' . DS . DS .$this->upload_directory.DS.$this->image ;;
         return unlink($target_path) ? true : false;
@@ -74,35 +74,50 @@ public function delete_photo(){
 }
 
 
-    public static function create_partner($full_name='', $gender='', $country, $state, $date_time, $affiliate_code, $bank_name, $account_number, $image, $partner_email, $fone_number)
-    {
-        if(!empty($full_name) && !empty($gender) &&!empty($country) && !empty($state) && !empty($date_time) && !empty($affiliate_code) &&
-     !empty($bank_name) && !empty($account_number) && !empty($image) && !empty($partner_email) && !empty($fone_number))
-        {
-            $partner= new Partner();
 
-            $partner->full_name= $full_name;
-            $partner->gender= $gender;
-            $partner->country= $country;
-            $partner->image= $image;
-            $partner->account_number= $account_number;
-            $partner->state= $state;
-            $partner->bank_name= $bank_name;
-            $partner->partner_email= $partner_email;
-            $partner->affiliate_code= $affiliate_code;
-            $partner->date_time= $date_time;
-            $partner->fone_number= $fone_number;
-            // $partner->fone_number= $fone_number;
 
-            return $partner;
 
-        }else{
-            return 'pls check the info and try again';
-        }
-    }
+    // public static function create_partner($full_name='', $gender='', $country, $state, $date_time, $affiliate_code, $bank_name, $account_number, $image, $partner_email, $fone_number)
+    // {
+    //     if(!empty($full_name) && !empty($gender) &&!empty($country) && !empty($state) && !empty($date_time) && !empty($affiliate_code) &&
+    //  !empty($bank_name) && !empty($account_number) && !empty($image) && !empty($partner_email) && !empty($fone_number))
+    //     {
+    //         $partner= new Partner();
+
+    //         $partner->full_name= $full_name;
+    //         $partner->gender= $gender;
+    //         $partner->country= $country;
+    //         // $partner->image=
+            
+    //         $partner->set_file($image);
+
+    //         if($partner->save_file()){
+    //             return  "user upload successfuly";
+    //         }else{
+        
+    //             return join("<br>", $partner->errors);
+    //         }
+    //         $partner->account_number= $account_number;
+    //         $partner->state= $state;
+    //         $partner->bank_name= $bank_name;
+    //         $partner->partner_email= $partner_email;
+    //         $partner->affiliate_code= $affiliate_code;
+    //         $partner->date_time= $date_time;
+    //         $partner->fone_number= $fone_number;
+    //         // $partner->fone_number= $fone_number;
+
+    //         return $partner;
+
+    //     }else{
+    //         return 'pls check the info and try again';
+    //     }
+    // }
 
 
 
 } //END OF comment CLASS
 
  // $posts_count = mysqli_num_rows($select_all_post);
+
+
+ 

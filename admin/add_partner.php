@@ -12,29 +12,28 @@ if(isset($_POST['Register']))
 {
 
     $Partner= new Partner();
-
+    if($Partner)
+    {
     $Partner->full_name = trim($_POST['full_name']);
     $Partner->country = trim($_POST['country']);
     $Partner->gender = trim($_POST['gender']);
     $Partner->state = trim($_POST['state']);
-    $Partner->date_time = date('y.m.d');
     $Partner->affiliate_code = trim($_POST['affiliate_code']);
     $Partner->bank_name = trim($_POST['bank_name']);
     $Partner->account_number = trim($_POST['account_number']);
-    $Partner->image ='image';
+    $Partner->image ="image";
     
     // $Partner->image = $_FILES['image']['name'];
     // $Partner_image_temp = $_FILES['image']['tmp_name'];
 
     $Partner->partner_email = trim($_POST['partner_email']);
     $Partner->fone_number = trim($_POST['fone_number']);
-
+    }
     // move_uploaded_file($Partner_image_temp, "./Assets/img/$Partner->image");
 
-   return $Partner->save();
-   redirect("partners_list.php");
-
-//    $message = "Account created successfully ";
+    $Partner->save();
+    return redirect("partners_list.php");
+ //  $message = "Account created successfully ";
 }
 
 
@@ -68,12 +67,11 @@ if(isset($_POST['Register']))
                     <!-- FORM -->
   <form  method="post" class="input-glass" enctype="multipart/form-data">
 
-<!-- <h5>Upload Photo</h5>
-<div class="custom-file mb-3">
-    <input name="image" type="file" required class="custom-file-input" id="customFile"
-        accept=".png, .jpg, .jpeg">
-    <label class="custom-file-label" for="customFile">Choose file</label>
-</div>  -->
+ <!-- <h5>Upload Photo</h5>
+ <div class="custom-file mb-3">
+ <input name="MAX_FILE_SIZE" type="hidden" required value="1000000">
+ <input name="image" type="file" required  id="customFile" accept=".png, .jpg, .jpeg">
+ </div>   -->
 
 
 <h5>Personal Details</h5>
@@ -86,7 +84,7 @@ if(isset($_POST['Register']))
 <div class="form-group">
 <label for="gender">Gender</label>
     <select class="form-control" required name='gender'  >
-    <option ></option>
+    <option value="">Gender</option>
         <option value="Male">Male</option>
         <option value="Female">Female</option>
     </select>
@@ -109,7 +107,7 @@ if(isset($_POST['Register']))
 <div class="form-group ">
 <label for="country"> Country</label>
     <select class="form-control" required name="country"  >
-        <option selected="selected" disabled='disabled'> --Select Country--</option>
+        <option value="" > --Select Country--</option>
         <option value="Nigeria">Nigeria</option>
         <option value="Benin">Benin</option>
         <option value="Egypt">Egypt</option>
@@ -122,7 +120,7 @@ if(isset($_POST['Register']))
 <div class="form-group ">
 <label for="state"> State</label>
     <select class="form-control" required name="state" >
-        <option selected="selected" disabled='disabled'> --Select state-- </option>
+        <option value="" > --Select state-- </option>
         <option value="ABUJA FCT" >ABUJA FCT</option>
         <option value="ABIA" >ABIA</option>
         <option value="ADAMAWA" >ADAMAWA</option>
@@ -168,7 +166,7 @@ if(isset($_POST['Register']))
 <label for="full_name"> Bank Name</label>
 <div class="form-group">
     <select class="form-control" required name="bank_name"  >
-        <option selected='selected' disabled="disabled"> --Select Bank-- </option>
+        <option value=""> --Select Bank-- </option>
         <option value="access">Access Bank</option>
         <option value="citibank">Citibank</option>
         <option value="diamond">Diamond Bank</option>

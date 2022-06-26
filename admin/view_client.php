@@ -29,7 +29,7 @@
       <div class="content mx-4">
       <div class="row mx-4">
       <button class=" btn btn-success"> <a href="clients_list.php"  class="text-white"> 
-      View Client in table</a> </button >
+       Client table</a> </button >
     
       </div>
 

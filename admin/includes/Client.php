@@ -2,15 +2,15 @@
 
 class Client extends Db_object {
     protected static $db_table = 'Clients';
-    protected static $db_table_field = array( 'full_name','phone_number','personal_email','site_package','date','site_type',
+    protected static $db_table_field = array( 'full_name','phone_number','personal_email','site_package','date_time()','site_type',
     'page_number','business_name','business_industry','partner_refferal_id','business_summary','logo');
+  
     public $id;
     public $full_name;
     public $phone_number;
     public $personal_email;
     public $site_package;
-    public $date;
-
+    public $date_time;
     public $site_type;
     public $page_number;
     public $business_name;
@@ -19,90 +19,66 @@ class Client extends Db_object {
     public $business_summary;
     public $logo;
 
-   
-
-//upload image
-
-
-//        public $filename;
-//    public $type;
-//    public $size;
-
-//    public $tmp_path;
-//    public $upload_directory = "images";
-//    public $errors = array();
-
-//    public $upload_errors_array = array(
-//        UPLOAD_ERR_OK => "There is no error",
-//        UPLOAD_ERR_INI_SIZE => "The uploaded file exceeds the upload_max_filesize directive",
-//        UPLOAD_ERR_FORM_SIZE => "The uploaded file exceeds the MAX_FILE_SIZE in form",
-//        UPLOAD_ERR_PARTIAL => "The uploaded file was only partial uploaded",
-//        UPLOAD_ERR_NO_FILE => "No file was uploaded.",
-//        UPLOAD_ERR_NO_TMP_DIR => "Missing a temporary folder",
-//        UPLOAD_ERR_CANT_WRITE => "Failed to write file to disk",
-//        UPLOAD_ERR_EXTENSION => "A PHP extension stopped the file upload"
-//    );
-
-//     This is passing $_FILES[''] as an argument
-//    public function set_file($file)
-//    {
-//        if (empty($file) || !$file || !is_array($file)) {
-//            $this->errors[] = "There was no uploaded file here!";
-//            return false;
-//        } elseif ($file['error'] != 0) {
-
-//            $this->errors[] = $this->upload_errors_array[$file['error']];
-//            return false;
-
-//        } else {
-//            $this->filename = basename($file['name']);
-//            $this->tmp_path = $file['tmp_name'];
-//            $this->type = $file['type'];
-//            $this->size = $file['size'];
-
-//        }
-
-//    }
-
-//    public function picture_path()
-//     {
-
-//         return $this->upload_directory . "/" . $this->filename;
-//     }
+    public $logo_upload_directory ='assets'. DS.'img'.DS.'clients';
+    public $file_upload_directory ='assets'.DS.'business_summary';
+    
+    public $errors = array();
 
 
-//     public function save(){
-//         if ($this->id) {
-//             $this->update();
-//         } else {
-//             if (!empty($this->errors)) {
-//                 return false;
-//             }
-//             if (empty($this->filename) || empty($this->tmp_path)) {
-//                 $this->errors[] = "the file was not available";
-//                 return false;
-//             }
+public function upload_error($error){
+    $upload_errors = array(
 
-//             $target_path = SITE_ROOT . DS . 'admin' . DS . $this->upload_directory . DS . $this->filename;
-//             // $target_path = "admin/images/{$this->filename}";
-//             if (file_exists($target_path)) {
-//                 $this->errors[] = "the file {$this->filename} already exist";
-//                 return false;
-//             }
+        UPLOAD_ERR_OK => "There is no error",
+        UPLOAD_ERR_INI_SIZE => "The uploaded file exceeds the upload_max_filesize directive",
+        UPLOAD_ERR_FORM_SIZE => "The file exceeds the MAX_FILE_SIZE in form",
+        UPLOAD_ERR_PARTIAL => "The uploaded file was only partial uploaded",
+        UPLOAD_ERR_NO_FILE => "No file was uploaded.",
+        UPLOAD_ERR_NO_TMP_DIR => "Missing a temporary folder",
+        UPLOAD_ERR_CANT_WRITE => "Failed to write file to disk",
+        UPLOAD_ERR_EXTENSION => "A PHP extension stopped the file upload"
+    );
+    return $upload_errors[$error];
+}
 
-//             if (move_uploaded_file($this->tmp_path, $target_path)) {
-//                 if ($this->create()) {
-//                     unset($this->tmp_path);
-//                     return true;
-//                 }
-//             } else {
-//                 $this->errors[] = "the file directory probably does not have permission";
-//                 return false;
-//             }
 
-//         }
+public function set_file($file)
+{   
+    if($file['error'] > 0 ){
+        $this->errors[]= $this->upload_error($file['error'] );
+        return false;
+     }else{
 
-//     }
+         if($file['type'] =='image/jpeg' || $file['type'] =='image/png' ||$file['type'] =='image/jpg' ){
+        $file_temp=$file['tmp_name'];
+        $this->logo = basename( $file['name']);
+        $target_path =  SITE_ROOT . DS . 'admin' . DS .$this->logo_upload_directory.DS.$this->logo;
+
+        move_uploaded_file($file_temp,$target_path );
+         }
+     
+         else{  
+        $file_temp=$file['tmp_name'];
+        $this->business_summary = basename( $file['name']);
+        $target_path =  SITE_ROOT . DS . 'admin' . DS .$this->file_upload_directory.DS.$this->business_summary;
+
+        move_uploaded_file($file_temp,$target_path );
+        }
+     
+    }
+
+}
+
+
+public function delete_file(){
+    if ($this->delete()) {
+        $target_path = SITE_ROOT . DS . 'admin' . DS . DS .$this->upload_directory.DS.$this->image ;;
+        return unlink($target_path) ? true : false;
+    } else {
+        return "false";
+    }
+
+}
+
 
 
 

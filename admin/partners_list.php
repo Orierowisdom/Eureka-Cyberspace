@@ -15,9 +15,7 @@
             <?php include "includes/admin_navbar.php" ?>
 
             <?php
-            $Nce_school = 'Nce';
-            $Degree_school = 'Degree';
-
+          
             $partners = Partner::find_all();
             ?>
             <!-- End Navbar -->
@@ -76,7 +74,7 @@
                                                         <tbody>
                                                             <?php foreach ($partners as $partner) : ?>
                                                                 <tr>
-                                                                    <td><img src="../Assets/img/affiliates/<?php echo $partner->image ?>" width="120" height='100' alt="img" /> <br>
+                                                                    <td><img src="./assets/img/affiliate/<?php echo $partner->image ?>" width="120" height='100' alt="img" /> <br>
                                                                    
                                                                         <div>
                                                                             <a class="text-primary" href="delete.php?id=<?php echo $partner->id ?>&class=Partner&link=partners_list.php">Delete</a>

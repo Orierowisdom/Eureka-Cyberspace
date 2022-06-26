@@ -8,35 +8,27 @@ if (!$session->is_signed_in()) { redirect("login.php");} ?>
 if (empty($_GET['id'])) {  redirect("partners_list.php");}
 
 $Partner =  Partner::find_by_id($_GET['id']);
-$message = '';
-
-
-
-if (isset($_POST['Update'])) {
-
-//     echo"<pre>";
-//     print_r( $_FILES['image']);
-//     echo"</pre>";
-//    $Partner_image_temp = $_FILES['image']['tmp_name'];
-
-//    $data = file_get_contents( $_FILES['image']['tmp_name']);
-//    echo nl2br($data);
-
-
-  
-}
-
+$message="";
+$file_upload_msg="";
 
 
 if (isset($_POST['Update'])) {
 
+    var_dump($_FILES['image']);
 
     if ($Partner) {
+
+       
+        if(!$Partner->set_file($_FILES['image'])){
+           
+            $file_upload_msg = join("<br>", $Partner->errors);
+        }
+        else{
+
         $Partner->full_name = trim($_POST['full_name']);
         $Partner->country = trim($_POST['country']);
         $Partner->gender = trim($_POST['gender']);
         $Partner->state = trim($_POST['state']);
-        $Partner->date_time = date('d.m.y');
         $Partner->affiliate_code = trim($_POST['affiliate_code']);
         $Partner->bank_name = trim($_POST['bank_name']);
         $Partner->account_number = trim($_POST['account_number']);
@@ -45,21 +37,16 @@ if (isset($_POST['Update'])) {
         $Partner->partner_email = trim($_POST['partner_email']);
         $Partner->fone_number = trim($_POST['fone_number']);
 
-        $Partner->image = $_FILES['image']['name'];
+        $Partner->save();
+        redirect("partners_list.php");
+        $message = "information saved success ";
+         }
 
-        $Partner->set_file($_FILES['image']);
-     
-   
-
-        // $Partner->save();
-    }
-
-    // redirect("partners_list.php");
-    $message = " ";
-}else{
-    echo"filed";
+ 
+    }else{
+    $message="failed check the information and try again";
 }
-
+}
 
 ?>
 
@@ -90,15 +77,23 @@ if (isset($_POST['Update'])) {
 
                             <!-- FORM -->
 
+                                <p class="bg-danger text-center text-white"> <?php if (!empty($file_upload_msg)) {echo $file_upload_msg; };?></p>
+                                <p class="bg-danger text-center text-white"> <?php if (!empty($message)) { echo $message; };?></p>
 
                             <form action="" method="post" class="input-glass" enctype="multipart/form-data">
 
-                                 <h5>Upload Photo</h5>
+                                 <h5>Upload Photo (picture size must be less than 1mb)</h5>
                                 <div class="custom-file mb-3">
-                                <input name="MAX_FILE_SIZE" type="hidden" required value="1000000">
-                                <input name="image" type="file" required  id="customFile" accept=".png, .jpg, .jpeg">
+
+                                <!-- <input name="MAX_FILE_SIZE" type="hidden"  value="1000000">
+
+                                <input type="file" name="image"required  value="./assets/img/affiliate/<?php //echo $Partner->image ?>" >
                                 <!-- <label class="custom-file-label" for="customFile">Choose file</label> -->
-                                </div>  
+                                </div>-->
+                                
+                                <div>
+                                <img src="./assets/img/affiliate/<?php echo $Partner->image ?>" width="120" height='100' alt="img" /> <br>
+                                </div>   
 
                                 
 
@@ -110,10 +105,10 @@ if (isset($_POST['Update'])) {
 
 
                                 <div class="form-group">
-                                    <select class="form-control" required name='gender' value="<?php echo $Partner->gender ?>" placeholder="Gender">
-                                        <option selected>Gender</option>
-                                        <option>Male</option>
-                                        <option>Female</option>
+                                    <select class="form-control" required name='gender' placeholder="Gender">
+                                    <option value="<?php echo $Partner->gender?>"selected><?php echo $Partner->gender ?></option>
+                                        <option value="Male">Male</option>
+                                        <option value="female">Female</option>
                                     </select>
                                 </div>
 
@@ -131,8 +126,8 @@ if (isset($_POST['Update'])) {
 
 
                                 <div class="form-group input-group">
-                                    <select class="form-control" required name="country" value="<?php echo $Partner->counter ?>" placeholder="Country ">
-                                        <option selected>Select Country</option>
+                                    <select class="form-control"  name="country" placeholder="Country" required>
+                                   <option value="<?php echo $Partner->country?>"selected><?php echo $Partner->country ?></option>
                                         <option value="Nigeria">Nigeria</option>
                                         <option value="Benin">Benin</option>
                                         <option value="Egypt">Egypt</option>
@@ -143,8 +138,9 @@ if (isset($_POST['Update'])) {
                                 </div>
 
                                 <div class="form-group input-group">
-                                    <select class="form-control" required name="state" value="<?php echo $Partner->state ?>" placeholder="States">
-                                        <option selected>Select state</option>
+                                    <select class="form-control"  name="state"  placeholder="States" required>
+                                        <option value="">Select state</option>
+                                        <option value="<?php echo $Partner->state?>"selected><?php echo $Partner->state ?></option>
                                         <option value="ABUJA FCT">ABUJA FCT</option>
                                         <option value="ABIA">ABIA</option>
                                         <option value="ADAMAWA">ADAMAWA</option>
@@ -188,8 +184,9 @@ if (isset($_POST['Update'])) {
                                 <br>
                                 <h5>Bank Details</h5>
                                 <div class="form-group">
-                                    <select class="form-control" required name="bank_name" value="<?php echo $Partner->bank_name ?>" placeholder="Bank Name">
-                                        <option selected>Select Bank</option>
+                                    <select class="form-control"  name="bank_name"  placeholder="Bank Name" required>
+                                        <option value="">Select Bank</option>
+                                        <option value="<?php echo $Partner->bank_name?>"selected><?php echo $Partner->bank_name ?></option>
                                         <option value="access">Access Bank</option>
                                         <option value="citibank">Citibank</option>
                                         <option value="diamond">Diamond Bank</option>
@@ -221,7 +218,7 @@ if (isset($_POST['Update'])) {
                                 </div>
                                 <div class="form-group">
                                     <input name="affiliate_code" required class="form-control" type="text" value="<?php echo $Partner->affiliate_code ?>" placeholder="Referal Number">
-                                </div>
+                                </div> 
                                 <!-- <div class="form-group">
     <input name="subaccountid" class="form-control" type="text" placeholder="Subaccount ID">
 </div> -->
